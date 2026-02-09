@@ -160,10 +160,7 @@ export default function WinnerCard({ state, currentDisplay, winner }: WinnerCard
               <div className="text-5xl font-bold text-red-200 mb-2 drop-shadow-lg animate-ghost-float text-drip">
                 {winner.name}
               </div>
-              <div className="text-xl text-blood-300 font-semibold mb-1">
-                ID: {winner.id}
-              </div>
-              <div className="text-lg text-purple-300 font-medium">
+              <div className="text-xl text-purple-300 font-medium mt-2">
                 {winner.companyname}
               </div>
             </div>
