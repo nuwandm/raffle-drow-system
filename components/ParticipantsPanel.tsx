@@ -47,7 +47,7 @@ export default function ParticipantsPanel({ participants }: ParticipantsPanelPro
   };
 
   return (
-    <div className="bg-gradient-to-br from-black to-purple-950 rounded-lg shadow-xl overflow-hidden border-2 border-blood-700 relative">
+    <div className="bg-gradient-to-br from-black/30 to-purple-950/30 rounded-lg shadow-xl overflow-hidden relative">
       <div className="absolute inset-0 bg-gradient-to-br from-blood-900/10 to-transparent pointer-events-none"></div>
       <button
         onClick={() => setIsOpen(!isOpen)}

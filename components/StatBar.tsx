@@ -6,7 +6,7 @@ type StatBarProps = {
 
 export default function StatBar({ participants }: StatBarProps) {
   return (
-    <div className="bg-gradient-to-br from-black to-purple-950 rounded-lg shadow-xl p-6 mb-4 border-2 border-blood-700 relative overflow-hidden">
+    <div className="bg-gradient-to-br from-black/30 to-purple-950/30 rounded-lg shadow-xl p-6 mb-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-r from-blood-900/20 via-transparent to-purple-900/20 animate-pulse"></div>
       <div className="grid grid-cols-2 gap-4 relative z-10">
         <div className="text-center">

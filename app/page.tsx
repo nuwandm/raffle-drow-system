@@ -37,12 +37,14 @@ export default function Home() {
 
     // Filter out previous winners from eligible participants
     const eligibleParticipants = participants.filter(
-      (p) => !history.some((h) => h.winner.id === p.id)
+      (p) => !history.some((h) => h.winner.id === p.id),
     );
 
     // Check if all participants have already won
     if (eligibleParticipants.length === 0) {
-      alert("All participants have already won! Please clear history to draw again.");
+      alert(
+        "All participants have already won! Please clear history to draw again.",
+      );
       return;
     }
 
@@ -101,13 +103,7 @@ export default function Home() {
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Video Background */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="video-background"
-      >
+      <video autoPlay loop muted playsInline className="video-background">
         <source src="/assets/moon video background.mp4" type="video/mp4" />
         <source src="/assets/moon video background.webm" type="video/webm" />
       </video>
@@ -116,18 +112,23 @@ export default function Home() {
       <div className="background-particles"></div>
 
       {/* Jason Image - Bottom Left */}
-      <img
-        src="/assets/jason.png"
-        alt="Jason"
-        className="jason-image"
-      />
+      <img src="/assets/jason.png" alt="Jason" className="jason-image" />
 
       {/* Animated bats */}
-      <div className="bat" style={{ top: '10%', left: '10%', animationDelay: '0s' }}></div>
-      <div className="bat" style={{ top: '20%', left: '70%', animationDelay: '2s' }}></div>
-      <div className="bat" style={{ top: '60%', left: '30%', animationDelay: '4s' }}></div>
+      <div
+        className="bat"
+        style={{ top: "10%", left: "10%", animationDelay: "0s" }}
+      ></div>
+      <div
+        className="bat"
+        style={{ top: "20%", left: "70%", animationDelay: "2s" }}
+      ></div>
+      <div
+        className="bat"
+        style={{ top: "60%", left: "30%", animationDelay: "4s" }}
+      ></div>
 
-      <div className="max-w-5xl mx-auto px-4 py-6 bg-gradient-to-br from-black/90 via-purple-950/90 to-black/90 backdrop-blur-sm shadow-2xl rounded-2xl my-4 border-4 border-blood-700 relative z-10">
+      <div className="max-w-5xl mx-auto px-4 py-6 bg-gradient-to-br from-black/30 via-purple-950/30 to-black/30 backdrop-blur-sm shadow-2xl rounded-2xl my-4 relative z-10">
         {/* Header */}
         <header className="text-center mb-6 relative">
           <h1 className="text-6xl font-horror font-bold text-blood-600 mb-2 drop-shadow-lg text-eerie-glow">

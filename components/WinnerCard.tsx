@@ -39,7 +39,7 @@ export default function WinnerCard({ state, currentDisplay, winner }: WinnerCard
   }, [state, winner]);
   if (state === 'idle' && !winner) {
     return (
-      <div className="bg-gradient-to-br from-purple-950 to-black rounded-xl shadow-lg p-8 mb-4 text-center border-2 border-dashed border-blood-700 relative overflow-hidden">
+      <div className="bg-gradient-to-br from-purple-950/25 to-black/25 rounded-xl shadow-lg p-8 mb-4 text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blood-900/20 to-transparent animate-pulse"></div>
         <div className="text-red-300 text-lg font-semibold relative z-10 text-flicker">
           🦇 Click "Begin the Ritual" to choose a victim... 🦇
@@ -50,7 +50,7 @@ export default function WinnerCard({ state, currentDisplay, winner }: WinnerCard
 
   if (state === 'shuffling' && currentDisplay) {
     return (
-      <div className="bg-gradient-to-br from-black to-purple-950 rounded-xl shadow-2xl p-8 mb-4 text-center border-2 border-blood-700 animate-pulse relative overflow-hidden">
+      <div className="bg-gradient-to-br from-black/30 to-purple-950/30 rounded-xl shadow-2xl p-8 mb-4 text-center animate-pulse relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blood-900/30 via-purple-900/30 to-blood-900/30 animate-pulse"></div>
         <div className="relative z-10">
           <div className="text-sm text-blood-500 font-bold mb-3 uppercase tracking-widest text-flicker font-horror">
@@ -124,7 +124,7 @@ export default function WinnerCard({ state, currentDisplay, winner }: WinnerCard
           )}
 
           {/* Victim Card */}
-        <div className="bg-gradient-to-br from-black via-purple-950 to-blood-950 rounded-xl shadow-2xl p-6 text-center border-4 border-blood-700 relative overflow-hidden animate-winner-reveal">
+        <div className="bg-gradient-to-br from-black/35 via-purple-950/35 to-blood-950/35 rounded-xl shadow-2xl p-6 text-center relative overflow-hidden animate-winner-reveal">
           {/* Horror Message */}
           <div className="text-3xl mb-2 animate-ghost-float">
             🦇 ⚰️ 🦇
@@ -139,7 +139,7 @@ export default function WinnerCard({ state, currentDisplay, winner }: WinnerCard
           </div>
 
           {/* Victim Name with Animation */}
-          <div className="relative bg-gradient-to-br from-blood-900 to-purple-950 rounded-lg p-6 mb-3 animate-scale-in shadow-xl shine-effect animate-winner-glow rotating-border animate-pulse-scale border-2 border-blood-600">
+          <div className="relative bg-gradient-to-br from-blood-900/30 to-purple-950/30 rounded-lg p-6 mb-3 animate-scale-in shadow-xl shine-effect animate-winner-glow animate-pulse-scale">
             {/* Moonlight Rays Background */}
             <div className="light-rays pointer-events-none"></div>
 

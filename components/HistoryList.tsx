@@ -12,7 +12,7 @@ export default function HistoryList({ history, onClear }: HistoryListProps) {
   }
 
   return (
-    <div className="bg-gradient-to-br from-black to-purple-950 rounded-lg shadow-xl p-6 mb-6 border-2 border-blood-700 relative overflow-hidden">
+    <div className="bg-gradient-to-br from-black/30 to-purple-950/30 rounded-lg shadow-xl p-6 mb-6 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-blood-900/10 to-transparent"></div>
       <div className="flex justify-between items-center mb-4 relative z-10">
         <h2 className="text-2xl font-horror font-bold text-blood-500 text-eerie-glow">
@@ -20,7 +20,7 @@ export default function HistoryList({ history, onClear }: HistoryListProps) {
         </h2>
         <button
           onClick={onClear}
-          className="px-5 py-2 bg-gradient-to-r from-blood-800 to-blood-950 hover:from-blood-700 hover:to-blood-900 text-red-100 text-sm font-bold rounded-lg transition-all shadow-lg border-2 border-blood-600 hover:shadow-blood-700/50"
+          className="px-5 py-2 bg-gradient-to-r from-blood-800 to-blood-950 hover:from-blood-700 hover:to-blood-900 text-red-100 text-sm font-bold rounded-lg transition-all shadow-lg hover:shadow-blood-700/50"
         >
           💀 Cleanse History
         </button>
@@ -29,7 +29,7 @@ export default function HistoryList({ history, onClear }: HistoryListProps) {
         {history.map((entry, index) => (
           <div
             key={index}
-            className="bg-gradient-to-r from-purple-950 to-black rounded-lg p-4 border-2 border-blood-800 hover:border-blood-600 transition-colors shadow-lg relative overflow-hidden group"
+            className="bg-gradient-to-r from-purple-950/25 to-black/25 rounded-lg p-4 transition-colors shadow-lg relative overflow-hidden group"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-blood-900/20 via-transparent to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex justify-between items-start relative z-10">

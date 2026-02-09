@@ -11,41 +11,7 @@
     overflow-x: hidden;
   }
 
-  /* Dark overlay to blend background with horror theme */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.6) 0%,
-      rgba(75, 0, 130, 0.4) 40%,
-      rgba(139, 0, 0, 0.3) 70%,
-      rgba(0, 0, 0, 0.7) 100%
-    );
-    pointer-events: none;
-    z-index: 0;
-    animation: atmosphere-pulse 10s ease-in-out infinite;
-  }
-
-  /* Fog effect */
-  body::after {
-    content: '';
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 400px;
-    background: linear-gradient(
-      to top,
-      rgba(75, 0, 130, 0.5) 0%,
-      rgba(139, 0, 0, 0.2) 30%,
-      transparent 100%
-    );
-    pointer-events: none;
-    z-index: 0;
-    animation: fog-move 20s ease-in-out infinite;
-  }
+  /* Removed dark overlays to show more video background */
 }
 
 @keyframes atmosphere-pulse {
