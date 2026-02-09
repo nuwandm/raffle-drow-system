@@ -16,11 +16,11 @@ export class AudioSystem {
     // Background music during drawing (suspenseful horror theme)
     this.backgroundMusic = new Audio(`${basePath}/assets/audio/drawing-background.mp3`);
     this.backgroundMusic.loop = true;
-    this.backgroundMusic.volume = 0.4; // Adjust volume as needed
+    this.backgroundMusic.volume = 0.6; // Adjust volume as needed
 
     // Thunder/lightning sound effect
     this.thunderSound = new Audio(`${basePath}/assets/audio/thunder.mp3`);
-    this.thunderSound.volume = 0.6;
+    this.thunderSound.volume = 0.4;
 
     // Winner celebration sound
     this.winnerSound = new Audio(`${basePath}/assets/audio/winner-celebration.mp3`);

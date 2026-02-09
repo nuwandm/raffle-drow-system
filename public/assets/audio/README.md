@@ -77,8 +77,8 @@ After adding the files, the audio will automatically play at these moments:
 ## Volume Levels
 
 Default volumes are set as:
-- Drawing Background: 40%
-- Thunder: 60%
+- Drawing Background: 60%
+- Thunder: 40%
 - Winner Celebration: 70%
 
 You can adjust these in `lib/audioSystem.ts` if needed.
