@@ -3,7 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import type { Participant, DrawHistoryEntry, DrawState } from "@/lib/types";
 import { cryptoRandomInt, cryptoRandomElement } from "@/lib/random";
-import { getAssetPath } from "@/lib/basePath";
+import { getAssetPath, BASE_PATH } from "@/lib/basePath";
+import { getAudioSystem } from "@/lib/audioSystem";
 import StatBar from "@/components/StatBar";
 import WinnerCard from "@/components/WinnerCard";
 import DrawControls from "@/components/DrawControls";
@@ -23,13 +24,18 @@ export default function Home() {
   const [history, setHistory] = useState<DrawHistoryEntry[]>([]);
 
   const shuffleIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const audioSystemRef = useRef(getAudioSystem());
 
-  // Cleanup interval on unmount
+  // Initialize audio system and cleanup on unmount
   useEffect(() => {
+    const audioSystem = audioSystemRef.current;
+    audioSystem.initAudio(BASE_PATH);
+
     return () => {
       if (shuffleIntervalRef.current) {
         clearInterval(shuffleIntervalRef.current);
       }
+      audioSystem.cleanup();
     };
   }, []);
 
@@ -49,9 +55,20 @@ export default function Home() {
       return;
     }
 
+    // Get audio system
+    const audioSystem = audioSystemRef.current;
+
+    // Play thunder sound at the start for dramatic effect
+    audioSystem.playThunder();
+
     // Start shuffling
     setState("shuffling");
     setWinner(null);
+
+    // Play background music during drawing
+    setTimeout(() => {
+      audioSystem.playDrawingMusic();
+    }, 500); // Small delay after thunder
 
     // Shuffle animation: rapidly change displayed participant (from eligible pool only)
     shuffleIntervalRef.current = setInterval(() => {
@@ -67,12 +84,18 @@ export default function Home() {
         shuffleIntervalRef.current = null;
       }
 
+      // Stop background music
+      audioSystem.stopDrawingMusic();
+
       // Pick final winner using crypto randomness (from eligible pool only)
       const finalWinner = cryptoRandomElement(eligibleParticipants);
       console.log("final winner", finalWinner);
       if (finalWinner) {
         setWinner(finalWinner);
         setState("revealed");
+
+        // Play winner celebration sound
+        audioSystem.playWinnerCelebration();
 
         // Add to history
         const entry: DrawHistoryEntry = {
@@ -91,6 +114,10 @@ export default function Home() {
       clearInterval(shuffleIntervalRef.current);
       shuffleIntervalRef.current = null;
     }
+
+    // Stop all audio when resetting
+    const audioSystem = audioSystemRef.current;
+    audioSystem.stopAllSounds();
 
     setState("idle");
     setCurrentDisplay(null);
