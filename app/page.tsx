@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import type { Participant, DrawHistoryEntry, DrawState } from "@/lib/types";
 import { cryptoRandomInt, cryptoRandomElement } from "@/lib/random";
+import { getAssetPath } from "@/lib/basePath";
 import StatBar from "@/components/StatBar";
 import WinnerCard from "@/components/WinnerCard";
 import DrawControls from "@/components/DrawControls";
@@ -104,14 +105,14 @@ export default function Home() {
     <div className="min-h-screen relative overflow-hidden">
       {/* Video Background */}
       <video autoPlay loop muted playsInline className="video-background">
-        <source src="/assets/moon-video-background.mp4" type="video/mp4" />
+        <source src={getAssetPath("/assets/moon-video-background.mp4")} type="video/mp4" />
       </video>
 
       {/* Atmospheric particles */}
       <div className="background-particles"></div>
 
       {/* Jason Image - Bottom Left */}
-      <img src="/assets/jason.png" alt="Jason" className="jason-image" />
+      <img src={getAssetPath("/assets/jason.png")} alt="Jason" className="jason-image" />
 
       {/* Animated bats */}
       <div
