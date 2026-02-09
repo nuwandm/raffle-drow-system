@@ -8,7 +8,10 @@
       "Bash(node generate-participants.js:*)",
       "Bash(node -e:*)",
       "Bash(git remote:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }
