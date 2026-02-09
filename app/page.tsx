@@ -104,8 +104,7 @@ export default function Home() {
     <div className="min-h-screen relative overflow-hidden">
       {/* Video Background */}
       <video autoPlay loop muted playsInline className="video-background">
-        <source src="/assets/moon video background.mp4" type="video/mp4" />
-        <source src="/assets/moon video background.webm" type="video/webm" />
+        <source src="/assets/moon-video-background.mp4" type="video/mp4" />
       </video>
 
       {/* Atmospheric particles */}

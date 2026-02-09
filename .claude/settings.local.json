@@ -6,7 +6,9 @@
       "Bash(npm install:*)",
       "Bash(npm run build:*)",
       "Bash(node generate-participants.js:*)",
-      "Bash(node -e:*)"
+      "Bash(node -e:*)",
+      "Bash(git remote:*)",
+      "Bash(ls:*)"
     ]
   }
 }
