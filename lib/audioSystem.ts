@@ -1,19 +1,12 @@
 /**
  * Horror-themed Audio System for Raffle Draw
- * Plays MP3 files at different stages of the draw
+ * Plays MP3 files only - no Web Audio API generation
  */
 
 export class AudioSystem {
-  private audioContext: AudioContext | null = null;
   private backgroundMusic: HTMLAudioElement | null = null;
   private thunderSound: HTMLAudioElement | null = null;
   private winnerSound: HTMLAudioElement | null = null;
-
-  constructor() {
-    if (typeof window !== 'undefined') {
-      this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-    }
-  }
 
   /**
    * Initialize all audio files
@@ -131,9 +124,6 @@ export class AudioSystem {
     this.backgroundMusic = null;
     this.thunderSound = null;
     this.winnerSound = null;
-    if (this.audioContext) {
-      this.audioContext.close();
-    }
   }
 }
 

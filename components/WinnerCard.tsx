@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import type { Participant, DrawState } from '@/lib/types';
-import { playCelebrationSound } from '@/lib/celebrationSound';
 
 type WinnerCardProps = {
   state: DrawState;
@@ -19,8 +18,7 @@ export default function WinnerCard({ state, currentDisplay, winner }: WinnerCard
       setShowConfetti(true);
       setShowFireworks(true);
 
-      // Play celebration sound - built-in Web Audio API sound
-      playCelebrationSound();
+      // Celebration sound is now played via MP3 in page.tsx audioSystem
 
       // Hide effects after animation completes
       const timer = setTimeout(() => {
