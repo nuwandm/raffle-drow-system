@@ -29,7 +29,8 @@ export default function Home() {
 
   // Eligible participants (excluding previous winners) — stable reference via useMemo
   const eligibleParticipants = useMemo(
-    () => participants.filter((p) => !history.some((h) => h.winner.id === p.id)),
+    () =>
+      participants.filter((p) => !history.some((h) => h.winner.id === p.id)),
     [participants, history],
   );
 
@@ -91,7 +92,7 @@ export default function Home() {
       } else {
         setState("idle");
       }
-    }, 5000);
+    }, 10000);
   }, [state, participants, eligibleParticipants]);
 
   const handleReset = useCallback(() => {
