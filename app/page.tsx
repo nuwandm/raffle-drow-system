@@ -131,13 +131,21 @@ export default function Home() {
       <div className="max-w-5xl mx-auto px-4 py-6 bg-black/40 shadow-2xl rounded-2xl my-4 relative z-10">
         {/* Header */}
         <header className="text-center mb-6 relative">
-          <h1 className="text-6xl font-horror font-bold text-blood-600 mb-2 drop-shadow-lg">
-            🦇 DMS MIDNIGHT 13<sup className="text-4xl">TH</sup> 🦇
+          <h1
+            className="text-6xl font-bold text-blood-600 mb-2 drop-shadow-lg font-horror"
+            style={{ fontFamily: 'Creepster, cursive' }}
+          >
+            DMS MIDNIGHT 13<sup className="text-4xl">TH</sup>
           </h1>
-          <div className="relative inline-block">
-            <p className="text-xl text-red-300 font-semibold tracking-wider">
-              ☠️ The Chosen Ones Await Their Fate ☠️
+          <div className="flex items-center justify-center gap-3 mt-2">
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-blood-700/60" />
+            <p
+              className="text-lg text-red-300/80 tracking-[0.2em] uppercase"
+              style={{ fontFamily: 'Creepster, cursive' }}
+            >
+              The Chosen Ones Await Their Fate
             </p>
+            <div className="h-px w-12 bg-gradient-to-l from-transparent to-blood-700/60" />
           </div>
         </header>
 

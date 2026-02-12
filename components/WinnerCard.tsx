@@ -15,14 +15,14 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
   // DOM refs for direct manipulation during shuffle (bypasses React render cycle)
   const nameRef = useRef<HTMLDivElement>(null);
   const companyRef = useRef<HTMLDivElement>(null);
-  const rafRef = useRef<number | null>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Run shuffle animation via direct DOM writes — no React re-renders
   useEffect(() => {
     if (state !== 'shuffling' || shufflePool.length === 0) {
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-        rafRef.current = null;
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
       }
       return;
     }
@@ -31,7 +31,7 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
     const randomBatch = new Uint32Array(batchSize);
     let batchIndex = batchSize;
 
-    const animate = () => {
+    timerRef.current = setInterval(() => {
       if (batchIndex >= batchSize) {
         crypto.getRandomValues(randomBatch);
         batchIndex = 0;
@@ -41,15 +41,12 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
 
       if (nameRef.current) nameRef.current.textContent = p.name;
       if (companyRef.current) companyRef.current.textContent = p.companyname;
-
-      rafRef.current = requestAnimationFrame(animate);
-    };
-    rafRef.current = requestAnimationFrame(animate);
+    }, 50);
 
     return () => {
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-        rafRef.current = null;
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
       }
     };
   }, [state, shufflePool]);
@@ -86,10 +83,10 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
         >
           Summoning the Next Victim...
         </div>
-        <div ref={nameRef} className="text-5xl font-bold text-red-200 mb-2 text-bordered">
+        <div ref={nameRef} className="text-5xl font-bold text-white mb-2">
           &nbsp;
         </div>
-        <div ref={companyRef} className="text-lg text-purple-300 mt-1 text-bordered">
+        <div ref={companyRef} className="text-lg text-white mt-1">
           &nbsp;
         </div>
       </div>
@@ -181,6 +178,10 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
                 <div className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-purple-500/50 to-transparent mb-3" />
                 <div className="text-lg text-purple-300 font-medium tracking-wide text-bordered">
                   {winner.companyname}
+                </div>
+                <div className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-purple-500/50 to-transparent mt-3 mb-3" />
+                <div className="text-sm text-red-400 uppercase tracking-[0.2em]">
+                  Victim Number: <span className="text-red-300 font-bold">{winner.id}</span>
                 </div>
               </div>
 

@@ -6,7 +6,9 @@
       "Bash(npm install:*)",
       "Bash(npm run build:*)",
       "Bash(node generate-participants.js:*)",
-      "Bash(node -e:*)"
+      "Bash(node -e:*)",
+      "Bash(if exist \"c:\\\\DMS\\\\RC WORKS\\\\Raffle-Drow-web\\\\public\\\\fonts\" rmdir /s /q \"c:\\\\DMS\\\\RC WORKS\\\\Raffle-Drow-web\\\\public\\\\fonts\")",
+      "Bash(powershell -Command:*)"
     ]
   }
 }
