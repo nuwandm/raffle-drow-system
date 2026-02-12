@@ -69,9 +69,9 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
 
   if (state === 'idle' && !winner) {
     return (
-      <div className="bg-gradient-to-br from-purple-950/25 to-black/25 rounded-xl shadow-lg p-8 mb-4 text-center relative overflow-hidden">
-        <div className="text-red-300 text-lg font-semibold relative z-10">
-          🦇 Click "Begin the Ritual" to choose a victim... 🦇
+      <div className="border border-blood-900/30 rounded-2xl p-10 mb-4 text-center bg-black/20">
+        <div className="text-red-400/80 text-lg tracking-wide" style={{ fontFamily: 'Creepster, cursive' }}>
+          Click &quot;Begin the Ritual&quot; to choose a victim...
         </div>
       </div>
     );
@@ -79,17 +79,18 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
 
   if (state === 'shuffling') {
     return (
-      <div className="bg-gradient-to-br from-black/30 to-purple-950/30 rounded-xl shadow-2xl p-8 mb-4 text-center relative overflow-hidden">
-        <div className="relative z-10">
-          <div className="text-sm text-blood-500 font-bold mb-3 uppercase tracking-widest font-horror">
-            ⚰️ Choosing the Next Victim... ⚰️
-          </div>
-          <div ref={nameRef} className="text-5xl font-bold text-red-300 mb-2">
-            &nbsp;
-          </div>
-          <div ref={companyRef} className="text-xl text-purple-300 mt-1">
-            &nbsp;
-          </div>
+      <div className="border border-blood-900/40 rounded-2xl p-10 mb-4 text-center bg-black/30">
+        <div
+          className="text-xs text-blood-500 font-bold mb-4 uppercase tracking-[0.3em]"
+          style={{ fontFamily: 'Creepster, cursive' }}
+        >
+          Summoning the Next Victim...
+        </div>
+        <div ref={nameRef} className="text-5xl font-bold text-red-200 mb-2 text-bordered">
+          &nbsp;
+        </div>
+        <div ref={companyRef} className="text-lg text-purple-300 mt-1 text-bordered">
+          &nbsp;
         </div>
       </div>
     );
@@ -101,8 +102,7 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
         {/* Full Screen Celebration Overlay */}
         {showEffects && (
           <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
-            {/* Flying bats */}
-            {[...Array(15)].map((_, i) => (
+            {[...Array(12)].map((_, i) => (
               <div
                 key={`bat-${i}`}
                 className="bat-celebrate"
@@ -114,9 +114,7 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
                 }}
               />
             ))}
-
-            {/* Falling ghost wisps */}
-            {[...Array(60)].map((_, i) => (
+            {[...Array(50)].map((_, i) => (
               <div
                 key={`wisp-${i}`}
                 className="wisp"
@@ -131,10 +129,10 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
         )}
 
         <div className="relative mb-4">
-          {/* Blood Drips Effect */}
+          {/* Blood Drips */}
           {showEffects && (
-            <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-xl">
-              {[...Array(30)].map((_, i) => (
+            <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl">
+              {[...Array(25)].map((_, i) => (
                 <div
                   key={i}
                   className="blood-drip"
@@ -148,34 +146,52 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
             </div>
           )}
 
-          {/* Victim Card */}
-          <div className="bg-gradient-to-br from-black/35 via-purple-950/35 to-blood-950/35 rounded-xl shadow-2xl p-6 text-center relative overflow-hidden animate-winner-reveal">
-            <div className="text-3xl mb-2">
-              🦇 ⚰️ 🦇
-            </div>
+          {/* Winner Card */}
+          <div className="animate-winner-reveal rounded-2xl overflow-hidden border border-blood-800/50 bg-gradient-to-b from-black/60 via-blood-950/20 to-black/60">
+            {/* Top accent line */}
+            <div className="h-1 bg-gradient-to-r from-transparent via-blood-600 to-transparent" />
 
-            <div className="text-3xl text-blood-500 font-horror font-bold mb-2 uppercase tracking-wide drop-shadow-lg">
-              ☠️ THE CHOSEN ONE ☠️
-            </div>
+            <div className="px-8 pt-8 pb-6 text-center">
+              {/* Title section */}
+              <div
+                className="text-sm text-blood-500 uppercase tracking-[0.4em] mb-1"
+                style={{ fontFamily: 'Creepster, cursive' }}
+              >
+                The Ritual Has Spoken
+              </div>
+              <div
+                className="text-3xl text-blood-400 font-bold uppercase tracking-wider mb-6"
+                style={{ fontFamily: 'Creepster, cursive' }}
+              >
+                The Chosen One
+              </div>
 
-            <div className="text-base text-red-300 font-semibold mb-4 uppercase tracking-widest">
-              Your Fate Has Been Sealed...
-            </div>
+              {/* Divider */}
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <div className="h-px w-16 bg-gradient-to-r from-transparent to-blood-700/60" />
+                <span className="text-blood-600 text-lg">☠️</span>
+                <div className="h-px w-16 bg-gradient-to-l from-transparent to-blood-700/60" />
+              </div>
 
-            <div className="relative bg-gradient-to-br from-blood-900/30 to-purple-950/30 rounded-lg p-6 mb-3 shadow-xl">
-              <div className="relative z-10">
-                <div className="text-5xl font-bold text-red-200 mb-2 drop-shadow-lg">
+              {/* Winner name block */}
+              <div className="bg-black/40 rounded-xl px-8 py-8 border border-blood-900/30 mb-6">
+                <div className="text-5xl font-bold text-white mb-3 text-bordered" style={{ fontFamily: 'Creepster, cursive' }}>
                   {winner.name}
                 </div>
-                <div className="text-xl text-purple-300 font-medium mt-2">
+                <div className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-purple-500/50 to-transparent mb-3" />
+                <div className="text-lg text-purple-300 font-medium tracking-wide text-bordered">
                   {winner.companyname}
                 </div>
               </div>
+
+              {/* Bottom tagline */}
+              <div className="text-sm text-red-400/60 uppercase tracking-[0.2em]">
+                Your Fate Has Been Sealed
+              </div>
             </div>
 
-            <div className="text-3xl mt-2">
-              🕷️ 💀 🕷️
-            </div>
+            {/* Bottom accent line */}
+            <div className="h-1 bg-gradient-to-r from-transparent via-purple-700/60 to-transparent" />
           </div>
         </div>
       </>

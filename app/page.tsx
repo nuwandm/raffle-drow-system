@@ -71,7 +71,7 @@ export default function Home() {
       audioSystem.playDrawingMusic();
     }, 500);
 
-    // After 5 seconds, stop shuffling and reveal winner
+    // After 8 seconds, stop shuffling and reveal winner
     stopTimerRef.current = setTimeout(() => {
       // Stop background music
       audioSystem.stopDrawingMusic();
@@ -92,7 +92,7 @@ export default function Home() {
       } else {
         setState("idle");
       }
-    }, 10000);
+    }, 8000);
   }, [state, participants, eligibleParticipants]);
 
   const handleReset = useCallback(() => {
