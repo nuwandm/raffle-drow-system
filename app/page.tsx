@@ -1,30 +1,37 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo, memo } from "react";
 import type { Participant, DrawHistoryEntry, DrawState } from "@/lib/types";
-import { cryptoRandomInt, cryptoRandomElement } from "@/lib/random";
+import { cryptoRandomElement } from "@/lib/random";
 import { getAssetPath, BASE_PATH } from "@/lib/basePath";
 import { getAudioSystem } from "@/lib/audioSystem";
-import StatBar from "@/components/StatBar";
+import StatBarBase from "@/components/StatBar";
 import WinnerCard from "@/components/WinnerCard";
-import DrawControls from "@/components/DrawControls";
-import HistoryList from "@/components/HistoryList";
-import ParticipantsPanel from "@/components/ParticipantsPanel";
+import DrawControlsBase from "@/components/DrawControls";
+import HistoryListBase from "@/components/HistoryList";
 
 // Import participants data
 import participantsData from "@/data/participants.json";
 
+// Memoize child components to prevent re-renders during shuffle animation
+const StatBar = memo(StatBarBase);
+const DrawControls = memo(DrawControlsBase);
+const HistoryList = memo(HistoryListBase);
+
 export default function Home() {
   const [participants] = useState<Participant[]>(participantsData);
   const [state, setState] = useState<DrawState>("idle");
-  const [currentDisplay, setCurrentDisplay] = useState<Participant | null>(
-    null,
-  );
   const [winner, setWinner] = useState<Participant | null>(null);
   const [history, setHistory] = useState<DrawHistoryEntry[]>([]);
 
-  const shuffleIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const stopTimerRef = useRef<NodeJS.Timeout | null>(null);
   const audioSystemRef = useRef(getAudioSystem());
+
+  // Eligible participants (excluding previous winners) — stable reference via useMemo
+  const eligibleParticipants = useMemo(
+    () => participants.filter((p) => !history.some((h) => h.winner.id === p.id)),
+    [participants, history],
+  );
 
   // Initialize audio system and cleanup on unmount
   useEffect(() => {
@@ -32,22 +39,16 @@ export default function Home() {
     audioSystem.initAudio(BASE_PATH);
 
     return () => {
-      if (shuffleIntervalRef.current) {
-        clearInterval(shuffleIntervalRef.current);
+      if (stopTimerRef.current) {
+        clearTimeout(stopTimerRef.current);
       }
       audioSystem.cleanup();
     };
   }, []);
 
-  const handleDraw = () => {
+  const handleDraw = useCallback(() => {
     if (state === "shuffling" || participants.length === 0) return;
 
-    // Filter out previous winners from eligible participants
-    const eligibleParticipants = participants.filter(
-      (p) => !history.some((h) => h.winner.id === p.id),
-    );
-
-    // Check if all participants have already won
     if (eligibleParticipants.length === 0) {
       alert(
         "All participants have already won! Please clear history to draw again.",
@@ -55,49 +56,33 @@ export default function Home() {
       return;
     }
 
-    // Get audio system
     const audioSystem = audioSystemRef.current;
 
     // Play thunder sound at the start for dramatic effect
     audioSystem.playThunder();
 
-    // Start shuffling
+    // Start shuffling — WinnerCard handles the animation via direct DOM writes
     setState("shuffling");
     setWinner(null);
 
     // Play background music during drawing
     setTimeout(() => {
       audioSystem.playDrawingMusic();
-    }, 500); // Small delay after thunder
-
-    // Shuffle animation: rapidly change displayed participant (from eligible pool only)
-    shuffleIntervalRef.current = setInterval(() => {
-      const randomIndex = cryptoRandomInt(eligibleParticipants.length);
-      console.log("random index", randomIndex);
-      setCurrentDisplay(eligibleParticipants[randomIndex]);
-    }, 50);
+    }, 500);
 
     // After 5 seconds, stop shuffling and reveal winner
-    setTimeout(() => {
-      if (shuffleIntervalRef.current) {
-        clearInterval(shuffleIntervalRef.current);
-        shuffleIntervalRef.current = null;
-      }
-
+    stopTimerRef.current = setTimeout(() => {
       // Stop background music
       audioSystem.stopDrawingMusic();
 
-      // Pick final winner using crypto randomness (from eligible pool only)
+      // Pick final winner using crypto randomness
       const finalWinner = cryptoRandomElement(eligibleParticipants);
-      console.log("final winner", finalWinner);
       if (finalWinner) {
         setWinner(finalWinner);
         setState("revealed");
 
-        // Play winner celebration sound
         audioSystem.playWinnerCelebration();
 
-        // Add to history
         const entry: DrawHistoryEntry = {
           timestamp: new Date().toISOString(),
           winner: finalWinner,
@@ -107,62 +92,49 @@ export default function Home() {
         setState("idle");
       }
     }, 5000);
-  };
+  }, [state, participants, eligibleParticipants]);
 
-  const handleReset = () => {
-    if (shuffleIntervalRef.current) {
-      clearInterval(shuffleIntervalRef.current);
-      shuffleIntervalRef.current = null;
+  const handleReset = useCallback(() => {
+    if (stopTimerRef.current) {
+      clearTimeout(stopTimerRef.current);
+      stopTimerRef.current = null;
     }
 
-    // Stop all audio when resetting
     const audioSystem = audioSystemRef.current;
     audioSystem.stopAllSounds();
 
     setState("idle");
-    setCurrentDisplay(null);
     setWinner(null);
-  };
+  }, []);
 
-  const handleClearHistory = () => {
+  const handleClearHistory = useCallback(() => {
     setHistory([]);
-  };
+  }, []);
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Video Background */}
-      <video autoPlay loop muted playsInline className="video-background">
-        <source src={getAssetPath("/assets/moon-video-background.mp4")} type="video/mp4" />
-      </video>
+      {/* Static Image Background */}
+      <img
+        src={getAssetPath("/assets/moon-background.png")}
+        alt=""
+        className="fixed inset-0 w-full h-full object-cover -z-10 pointer-events-none"
+      />
 
-      {/* Atmospheric particles */}
-      <div className="background-particles"></div>
+      {/* Jason Image - Bottom Left (static, no animation/filter) */}
+      <img
+        src={getAssetPath("/assets/jason.png")}
+        alt="Jason"
+        className="jason-image"
+      />
 
-      {/* Jason Image - Bottom Left */}
-      <img src={getAssetPath("/assets/jason.png")} alt="Jason" className="jason-image" />
-
-      {/* Animated bats */}
-      <div
-        className="bat"
-        style={{ top: "10%", left: "10%", animationDelay: "0s" }}
-      ></div>
-      <div
-        className="bat"
-        style={{ top: "20%", left: "70%", animationDelay: "2s" }}
-      ></div>
-      <div
-        className="bat"
-        style={{ top: "60%", left: "30%", animationDelay: "4s" }}
-      ></div>
-
-      <div className="max-w-5xl mx-auto px-4 py-6 bg-gradient-to-br from-black/30 via-purple-950/30 to-black/30 backdrop-blur-sm shadow-2xl rounded-2xl my-4 relative z-10">
+      <div className="max-w-5xl mx-auto px-4 py-6 bg-black/40 shadow-2xl rounded-2xl my-4 relative z-10">
         {/* Header */}
         <header className="text-center mb-6 relative">
-          <h1 className="text-6xl font-horror font-bold text-blood-600 mb-2 drop-shadow-lg text-eerie-glow">
+          <h1 className="text-6xl font-horror font-bold text-blood-600 mb-2 drop-shadow-lg">
             🦇 DMS MIDNIGHT 13<sup className="text-4xl">TH</sup> 🦇
           </h1>
           <div className="relative inline-block">
-            <p className="text-xl text-red-300 font-semibold text-flicker tracking-wider">
+            <p className="text-xl text-red-300 font-semibold tracking-wider">
               ☠️ The Chosen Ones Await Their Fate ☠️
             </p>
           </div>
@@ -174,7 +146,7 @@ export default function Home() {
         {/* Winner Display */}
         <WinnerCard
           state={state}
-          currentDisplay={currentDisplay}
+          shufflePool={eligibleParticipants}
           winner={winner}
         />
 
@@ -183,9 +155,6 @@ export default function Home() {
 
         {/* History */}
         <HistoryList history={history} onClear={handleClearHistory} />
-
-        {/* Participants Panel */}
-        <ParticipantsPanel participants={participants} />
       </div>
     </div>
   );

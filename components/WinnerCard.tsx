@@ -1,64 +1,94 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import type { Participant, DrawState } from '@/lib/types';
 
 type WinnerCardProps = {
   state: DrawState;
-  currentDisplay: Participant | null;
+  shufflePool: Participant[];
   winner: Participant | null;
 };
 
-export default function WinnerCard({ state, currentDisplay, winner }: WinnerCardProps) {
-  const [showConfetti, setShowConfetti] = useState(false);
-  const [showFireworks, setShowFireworks] = useState(false);
+export default function WinnerCard({ state, shufflePool, winner }: WinnerCardProps) {
+  const [showEffects, setShowEffects] = useState(false);
 
+  // DOM refs for direct manipulation during shuffle (bypasses React render cycle)
+  const nameRef = useRef<HTMLDivElement>(null);
+  const companyRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
+
+  // Run shuffle animation via direct DOM writes — no React re-renders
+  useEffect(() => {
+    if (state !== 'shuffling' || shufflePool.length === 0) {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+      return;
+    }
+
+    const batchSize = 512;
+    const randomBatch = new Uint32Array(batchSize);
+    let batchIndex = batchSize;
+
+    const animate = () => {
+      if (batchIndex >= batchSize) {
+        crypto.getRandomValues(randomBatch);
+        batchIndex = 0;
+      }
+      const idx = randomBatch[batchIndex++] % shufflePool.length;
+      const p = shufflePool[idx];
+
+      if (nameRef.current) nameRef.current.textContent = p.name;
+      if (companyRef.current) companyRef.current.textContent = p.companyname;
+
+      rafRef.current = requestAnimationFrame(animate);
+    };
+    rafRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+    };
+  }, [state, shufflePool]);
+
+  // Winner celebration effects
   useEffect(() => {
     if (state === 'revealed' && winner) {
-      setShowConfetti(true);
-      setShowFireworks(true);
+      setShowEffects(true);
 
-      // Celebration sound is now played via MP3 in page.tsx audioSystem
-
-      // Hide effects after animation completes
       const timer = setTimeout(() => {
-        setShowConfetti(false);
-        setShowFireworks(false);
+        setShowEffects(false);
       }, 6000);
 
-      return () => {
-        clearTimeout(timer);
-        // Cancel speech if component unmounts
-        if ('speechSynthesis' in window) {
-          window.speechSynthesis.cancel();
-        }
-      };
+      return () => clearTimeout(timer);
     }
   }, [state, winner]);
+
   if (state === 'idle' && !winner) {
     return (
       <div className="bg-gradient-to-br from-purple-950/25 to-black/25 rounded-xl shadow-lg p-8 mb-4 text-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blood-900/20 to-transparent animate-pulse"></div>
-        <div className="text-red-300 text-lg font-semibold relative z-10 text-flicker">
+        <div className="text-red-300 text-lg font-semibold relative z-10">
           🦇 Click "Begin the Ritual" to choose a victim... 🦇
         </div>
       </div>
     );
   }
 
-  if (state === 'shuffling' && currentDisplay) {
+  if (state === 'shuffling') {
     return (
-      <div className="bg-gradient-to-br from-black/30 to-purple-950/30 rounded-xl shadow-2xl p-8 mb-4 text-center animate-pulse relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blood-900/30 via-purple-900/30 to-blood-900/30 animate-pulse"></div>
+      <div className="bg-gradient-to-br from-black/30 to-purple-950/30 rounded-xl shadow-2xl p-8 mb-4 text-center relative overflow-hidden">
         <div className="relative z-10">
-          <div className="text-sm text-blood-500 font-bold mb-3 uppercase tracking-widest text-flicker font-horror">
+          <div className="text-sm text-blood-500 font-bold mb-3 uppercase tracking-widest font-horror">
             ⚰️ Choosing the Next Victim... ⚰️
           </div>
-          <div className="text-5xl font-bold text-red-300 mb-2 animate-creepy-shake">
-            {currentDisplay.name}
+          <div ref={nameRef} className="text-5xl font-bold text-red-300 mb-2">
+            &nbsp;
           </div>
-          <div className="text-xl text-purple-300 mt-1">
-            {currentDisplay.companyname}
+          <div ref={companyRef} className="text-xl text-purple-300 mt-1">
+            &nbsp;
           </div>
         </div>
       </div>
@@ -68,14 +98,14 @@ export default function WinnerCard({ state, currentDisplay, winner }: WinnerCard
   if ((state === 'revealed' || state === 'idle') && winner) {
     return (
       <>
-        {/* Full Screen Horror Overlay */}
-        {showFireworks && (
+        {/* Full Screen Celebration Overlay */}
+        {showEffects && (
           <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
             {/* Flying bats */}
             {[...Array(15)].map((_, i) => (
               <div
                 key={`bat-${i}`}
-                className="bat"
+                className="bat-celebrate"
                 style={{
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 60}%`,
@@ -86,10 +116,10 @@ export default function WinnerCard({ state, currentDisplay, winner }: WinnerCard
             ))}
 
             {/* Falling ghost wisps */}
-            {[...Array(80)].map((_, i) => (
+            {[...Array(60)].map((_, i) => (
               <div
                 key={`wisp-${i}`}
-                className="sparkle"
+                className="wisp"
                 style={{
                   left: `${Math.random() * 100}%`,
                   animationDelay: `${Math.random() * 3}s`,
@@ -102,9 +132,9 @@ export default function WinnerCard({ state, currentDisplay, winner }: WinnerCard
 
         <div className="relative mb-4">
           {/* Blood Drips Effect */}
-          {showConfetti && (
+          {showEffects && (
             <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-xl">
-              {[...Array(40)].map((_, i) => (
+              {[...Array(30)].map((_, i) => (
                 <div
                   key={i}
                   className="blood-drip"
@@ -119,55 +149,34 @@ export default function WinnerCard({ state, currentDisplay, winner }: WinnerCard
           )}
 
           {/* Victim Card */}
-        <div className="bg-gradient-to-br from-black/35 via-purple-950/35 to-blood-950/35 rounded-xl shadow-2xl p-6 text-center relative overflow-hidden animate-winner-reveal">
-          {/* Horror Message */}
-          <div className="text-3xl mb-2 animate-ghost-float">
-            🦇 ⚰️ 🦇
-          </div>
+          <div className="bg-gradient-to-br from-black/35 via-purple-950/35 to-blood-950/35 rounded-xl shadow-2xl p-6 text-center relative overflow-hidden animate-winner-reveal">
+            <div className="text-3xl mb-2">
+              🦇 ⚰️ 🦇
+            </div>
 
-          <div className="text-3xl text-blood-500 font-horror font-bold mb-2 uppercase tracking-wide animate-pulse drop-shadow-lg text-eerie-glow">
-            ☠️ THE CHOSEN ONE ☠️
-          </div>
+            <div className="text-3xl text-blood-500 font-horror font-bold mb-2 uppercase tracking-wide drop-shadow-lg">
+              ☠️ THE CHOSEN ONE ☠️
+            </div>
 
-          <div className="text-base text-red-300 font-semibold mb-4 uppercase tracking-widest text-flicker">
-            Your Fate Has Been Sealed...
-          </div>
+            <div className="text-base text-red-300 font-semibold mb-4 uppercase tracking-widest">
+              Your Fate Has Been Sealed...
+            </div>
 
-          {/* Victim Name with Animation */}
-          <div className="relative bg-gradient-to-br from-blood-900/30 to-purple-950/30 rounded-lg p-6 mb-3 animate-scale-in shadow-xl shine-effect animate-winner-glow animate-pulse-scale">
-            {/* Moonlight Rays Background */}
-            <div className="light-rays pointer-events-none"></div>
-
-            {/* Floating Blood Splatter Particles */}
-            {[...Array(8)].map((_, i) => (
-              <div
-                key={`blood-${i}`}
-                className="star-particle"
-                style={{
-                  left: `${10 + i * 12}%`,
-                  bottom: '0',
-                  animationDelay: `${i * 0.2}s`,
-                  animationDuration: `${2 + Math.random()}s`
-                }}
-              />
-            ))}
-
-            {/* Victim Content */}
-            <div className="relative z-10">
-              <div className="text-5xl font-bold text-red-200 mb-2 drop-shadow-lg animate-ghost-float text-drip">
-                {winner.name}
-              </div>
-              <div className="text-xl text-purple-300 font-medium mt-2">
-                {winner.companyname}
+            <div className="relative bg-gradient-to-br from-blood-900/30 to-purple-950/30 rounded-lg p-6 mb-3 shadow-xl">
+              <div className="relative z-10">
+                <div className="text-5xl font-bold text-red-200 mb-2 drop-shadow-lg">
+                  {winner.name}
+                </div>
+                <div className="text-xl text-purple-300 font-medium mt-2">
+                  {winner.companyname}
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Bottom Horror Icons */}
-          <div className="text-3xl mt-2 animate-ghost-float">
-            🕷️ 💀 🕷️
+            <div className="text-3xl mt-2">
+              🕷️ 💀 🕷️
+            </div>
           </div>
-        </div>
         </div>
       </>
     );
