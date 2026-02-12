@@ -150,7 +150,7 @@ export default function Home() {
         </header>
 
         {/* Stats */}
-        <StatBar participants={participants} />
+        <StatBar participants={eligibleParticipants} />
 
         {/* Winner Display */}
         <WinnerCard
