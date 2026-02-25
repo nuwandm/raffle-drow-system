@@ -1,7 +1,7 @@
 export type Participant = {
   id: string;
   name: string;
-  companyname: string;
+  location: string;
 };
 
 export type DrawHistoryEntry = {

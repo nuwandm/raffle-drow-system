@@ -36,7 +36,10 @@ export default function HistoryList({ history, onClear }: HistoryListProps) {
                   {entry.winner.name}
                 </div>
                 <div className="text-sm text-purple-300">
-                  ID: {entry.winner.id} • {entry.winner.companyname}
+                  {entry.winner.location}
+                </div>
+                <div className="text-xs text-red-400 uppercase tracking-[0.1em] mt-1">
+                  Victim No: <span className="text-red-300 font-bold">{entry.winner.id}</span>
                 </div>
               </div>
               <div className="text-xs text-red-400">

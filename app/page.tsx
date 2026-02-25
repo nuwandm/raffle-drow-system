@@ -5,7 +5,6 @@ import type { Participant, DrawHistoryEntry, DrawState } from "@/lib/types";
 import { cryptoRandomElement } from "@/lib/random";
 import { getAssetPath, BASE_PATH } from "@/lib/basePath";
 import { getAudioSystem } from "@/lib/audioSystem";
-import StatBarBase from "@/components/StatBar";
 import WinnerCard from "@/components/WinnerCard";
 import DrawControlsBase from "@/components/DrawControls";
 import HistoryListBase from "@/components/HistoryList";
@@ -14,7 +13,6 @@ import HistoryListBase from "@/components/HistoryList";
 import participantsData from "@/data/participants.json";
 
 // Memoize child components to prevent re-renders during shuffle animation
-const StatBar = memo(StatBarBase);
 const DrawControls = memo(DrawControlsBase);
 const HistoryList = memo(HistoryListBase);
 
@@ -128,11 +126,11 @@ export default function Home() {
         className="jason-image"
       />
 
-      <div className="max-w-5xl mx-auto px-4 py-6 bg-black/40 shadow-2xl rounded-2xl my-4 relative z-10">
+      <div className="max-w-5xl mx-auto px-4 py-6 relative z-10">
         {/* Header */}
         <header className="text-center mb-6 relative">
           <h1
-            className="text-6xl font-bold text-blood-600 mb-2 drop-shadow-lg font-horror"
+            className="text-6xl font-bold text-blood-600 mb-2 drop-shadow-lg font-horror tracking-[0.15em]"
             style={{ fontFamily: 'Creepster, cursive' }}
           >
             DMS MIDNIGHT 13<sup className="text-4xl">TH</sup>
@@ -148,9 +146,6 @@ export default function Home() {
             <div className="h-px w-12 bg-gradient-to-l from-transparent to-blood-700/60" />
           </div>
         </header>
-
-        {/* Stats */}
-        <StatBar participants={eligibleParticipants} />
 
         {/* Winner Display */}
         <WinnerCard

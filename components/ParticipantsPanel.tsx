@@ -21,7 +21,7 @@ export default function ParticipantsPanel({ participants }: ParticipantsPanelPro
         (p) =>
           p.name.toLowerCase().includes(term) ||
           p.id.toLowerCase().includes(term) ||
-          p.companyname.toLowerCase().includes(term)
+          p.location.toLowerCase().includes(term)
       );
       return {
         filteredParticipants: filtered,
@@ -107,7 +107,7 @@ export default function ParticipantsPanel({ participants }: ParticipantsPanelPro
                     Name
                   </th>
                   <th className="px-4 py-2 text-left text-xs font-bold text-blood-400 uppercase tracking-wider">
-                    Company
+                    Location
                   </th>
                 </tr>
               </thead>
@@ -124,7 +124,7 @@ export default function ParticipantsPanel({ participants }: ParticipantsPanelPro
                       {participant.name}
                     </td>
                     <td className="px-4 py-2 text-sm text-purple-300 group-hover:text-purple-200">
-                      {participant.companyname}
+                      {participant.location}
                     </td>
                   </tr>
                 ))}

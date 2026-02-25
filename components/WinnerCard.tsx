@@ -40,7 +40,7 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
       const p = shufflePool[idx];
 
       if (nameRef.current) nameRef.current.textContent = p.name;
-      if (companyRef.current) companyRef.current.textContent = p.companyname;
+      if (companyRef.current) companyRef.current.textContent = p.location;
     }, 50);
 
     return () => {
@@ -151,14 +151,21 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
             <div className="px-8 pt-8 pb-6 text-center">
               {/* Title section */}
               <div
-                className="text-sm text-blood-500 uppercase tracking-[0.4em] mb-1"
-                style={{ fontFamily: 'Creepster, cursive' }}
+                className="text-sm text-red-300 uppercase tracking-[0.5em] mb-1"
+                style={{
+                  fontFamily: 'Creepster, cursive',
+                  textShadow: '0 0 8px rgba(239,68,68,0.7)',
+                }}
               >
                 The Ritual Has Spoken
               </div>
               <div
-                className="text-3xl text-blood-400 font-bold uppercase tracking-wider mb-6"
-                style={{ fontFamily: 'Creepster, cursive' }}
+                className="text-4xl font-bold uppercase tracking-[0.3em] mb-6"
+                style={{
+                  fontFamily: 'Creepster, cursive',
+                  color: '#DC2626',
+                  textShadow: '0 0 16px rgba(220,38,38,0.9), 0 0 32px rgba(185,28,28,0.6)',
+                }}
               >
                 The Chosen One
               </div>
@@ -172,21 +179,24 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
 
               {/* Winner name block */}
               <div className="bg-black/40 rounded-xl px-8 py-8 border border-blood-900/30 mb-6">
-                <div className="text-5xl font-bold text-white mb-3 text-bordered" style={{ fontFamily: 'Creepster, cursive' }}>
+                <div className="text-5xl font-bold text-white mb-3 text-bordered tracking-[0.1em]" style={{ fontFamily: 'Creepster, cursive' }}>
                   {winner.name}
                 </div>
                 <div className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-purple-500/50 to-transparent mb-3" />
                 <div className="text-lg text-purple-300 font-medium tracking-wide text-bordered">
-                  {winner.companyname}
+                  {winner.location}
                 </div>
                 <div className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-purple-500/50 to-transparent mt-3 mb-3" />
                 <div className="text-sm text-red-400 uppercase tracking-[0.2em]">
-                  Victim Number: <span className="text-red-300 font-bold">{winner.id}</span>
+                  Victim No: <span className="text-red-300 font-bold">{winner.id}</span>
                 </div>
               </div>
 
               {/* Bottom tagline */}
-              <div className="text-sm text-red-400/60 uppercase tracking-[0.2em]">
+              <div
+                className="text-sm text-red-300 uppercase tracking-[0.2em]"
+                style={{ textShadow: '0 0 6px rgba(239,68,68,0.5)' }}
+              >
                 Your Fate Has Been Sealed
               </div>
             </div>
