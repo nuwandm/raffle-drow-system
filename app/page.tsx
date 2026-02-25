@@ -126,9 +126,9 @@ export default function Home() {
         className="jason-image"
       />
 
-      <div className="max-w-5xl mx-auto px-4 py-6 relative z-10">
+      <div className="max-w-5xl mx-auto px-4 py-5 relative z-10">
         {/* Header */}
-        <header className="text-center mb-6 relative">
+        <header className="text-center mb-10 mt-5 relative">
           <h1
             className="text-6xl font-bold text-blood-600 mb-2 drop-shadow-lg font-horror tracking-[0.15em]"
             style={{ fontFamily: "'Nosifer', cursive" }}

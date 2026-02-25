@@ -10,7 +10,7 @@ export default function DrawControls({ state, onDraw, onReset }: DrawControlsPro
   const isDisabled = state === 'shuffling';
 
   return (
-    <div className="flex justify-center mb-4">
+    <div className="flex justify-center py-2 mb-8">
       <button
         onClick={onDraw}
         disabled={isDisabled}

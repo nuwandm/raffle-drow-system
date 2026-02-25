@@ -14,8 +14,8 @@ export default function HistoryList({ history, onClear }: HistoryListProps) {
   }
 
   return (
-    <div className="bg-black/30 rounded-lg shadow-xl p-6 mb-6">
-      <div className="flex justify-between items-center mb-4">
+    <div className="bg-black/30 rounded-lg shadow-xl p-8 mb-10">
+      <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-blood-500" style={HORROR_FONT}>
           ⚰️ The Fallen Ones ({history.length})
         </h2>
@@ -27,11 +27,11 @@ export default function HistoryList({ history, onClear }: HistoryListProps) {
           💀 Cleanse History
         </button>
       </div>
-      <div className="space-y-3">
+      <div className="space-y-4">
         {history.map((entry, index) => (
           <div
             key={index}
-            className="bg-purple-950/25 rounded-lg p-4 shadow-lg"
+            className="bg-purple-950/25 rounded-lg p-5 shadow-lg"
           >
             <div className="flex justify-between items-start">
               <div>

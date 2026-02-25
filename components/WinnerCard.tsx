@@ -68,7 +68,7 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
 
   if (state === 'idle' && !winner) {
     return (
-      <div className="border border-blood-900/30 rounded-2xl p-10 mb-4 text-center bg-black/20">
+      <div className="border border-blood-900/30 rounded-2xl p-10 mb-8 text-center bg-black/20">
         <div className="text-red-400/80 text-lg tracking-wide" style={HORROR_FONT}>
           Click &quot;Begin the Ritual&quot; to choose a victim...
         </div>
@@ -78,7 +78,7 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
 
   if (state === 'shuffling') {
     return (
-      <div className="border border-blood-900/40 rounded-2xl p-10 mb-4 text-center bg-black/30">
+      <div className="border border-blood-900/40 rounded-2xl p-10 mb-8 text-center bg-black/30">
         <div
           className="text-xs text-blood-500 font-bold mb-4 uppercase tracking-[0.3em]"
           style={HORROR_FONT}
@@ -150,7 +150,7 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
             {/* Top accent line */}
             <div className="h-1 bg-gradient-to-r from-transparent via-blood-600 to-transparent" />
 
-            <div className="px-8 pt-8 pb-6 text-center">
+            <div className="px-8 pt-5 pb-4 text-center">
               {/* Title section */}
               <div
                 className="text-sm text-red-200 uppercase tracking-[0.5em] mb-1"
@@ -159,7 +159,7 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
                 The Ritual Has Spoken
               </div>
               <div
-                className="text-4xl font-bold uppercase tracking-[0.3em] mb-6"
+                className="text-4xl font-bold uppercase tracking-[0.3em] mb-3"
                 style={{
                   ...HORROR_FONT,
                   color: '#DC2626',
@@ -170,13 +170,13 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
               </div>
 
               {/* Divider */}
-              <div className="flex items-center justify-center gap-4 mb-6">
+              <div className="flex items-center justify-center gap-4 mb-3">
                 <div className="h-px w-32 bg-gradient-to-r from-transparent to-blood-700/60" />
                 <div className="h-px w-32 bg-gradient-to-l from-transparent to-blood-700/60" />
               </div>
 
               {/* Winner name block */}
-              <div className="bg-black/40 rounded-xl px-8 py-8 border border-blood-900/30 mb-6">
+              <div className="bg-black/40 rounded-xl px-8 py-5 border border-blood-900/30 mb-4">
                 <div className="text-5xl font-bold text-white mb-3 text-bordered tracking-[0.1em]" style={{ fontFamily: "'Nosifer', cursive" }}>
                   {winner.name}
                 </div>
