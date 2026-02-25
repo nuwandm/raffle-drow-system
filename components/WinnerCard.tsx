@@ -3,6 +3,8 @@
 import { useEffect, useState, useRef } from 'react';
 import type { Participant, DrawState } from '@/lib/types';
 
+const HORROR_FONT = { fontFamily: "'MedievalSharp', cursive" };
+
 type WinnerCardProps = {
   state: DrawState;
   shufflePool: Participant[];
@@ -67,7 +69,7 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
   if (state === 'idle' && !winner) {
     return (
       <div className="border border-blood-900/30 rounded-2xl p-10 mb-4 text-center bg-black/20">
-        <div className="text-red-400/80 text-lg tracking-wide" style={{ fontFamily: 'Creepster, cursive' }}>
+        <div className="text-red-400/80 text-lg tracking-wide" style={HORROR_FONT}>
           Click &quot;Begin the Ritual&quot; to choose a victim...
         </div>
       </div>
@@ -79,14 +81,14 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
       <div className="border border-blood-900/40 rounded-2xl p-10 mb-4 text-center bg-black/30">
         <div
           className="text-xs text-blood-500 font-bold mb-4 uppercase tracking-[0.3em]"
-          style={{ fontFamily: 'Creepster, cursive' }}
+          style={HORROR_FONT}
         >
           Summoning the Next Victim...
         </div>
-        <div ref={nameRef} className="text-5xl font-bold text-white mb-2">
+        <div ref={nameRef} className="text-5xl font-bold text-white mb-2" style={HORROR_FONT}>
           &nbsp;
         </div>
-        <div ref={companyRef} className="text-lg text-white mt-1">
+        <div ref={companyRef} className="text-lg text-purple-300 mt-1" style={HORROR_FONT}>
           &nbsp;
         </div>
       </div>
@@ -144,25 +146,22 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
           )}
 
           {/* Winner Card */}
-          <div className="animate-winner-reveal rounded-2xl overflow-hidden border border-blood-800/50 bg-gradient-to-b from-black/60 via-blood-950/20 to-black/60">
+          <div className="animate-winner-reveal rounded-2xl overflow-hidden border border-blood-800/50 bg-gradient-to-b from-black/20 via-blood-950/10 to-black/20">
             {/* Top accent line */}
             <div className="h-1 bg-gradient-to-r from-transparent via-blood-600 to-transparent" />
 
             <div className="px-8 pt-8 pb-6 text-center">
               {/* Title section */}
               <div
-                className="text-sm text-red-300 uppercase tracking-[0.5em] mb-1"
-                style={{
-                  fontFamily: 'Creepster, cursive',
-                  textShadow: '0 0 8px rgba(239,68,68,0.7)',
-                }}
+                className="text-sm text-red-200 uppercase tracking-[0.5em] mb-1"
+                style={{ ...HORROR_FONT, textShadow: '0 0 8px rgba(239,68,68,0.7)' }}
               >
                 The Ritual Has Spoken
               </div>
               <div
                 className="text-4xl font-bold uppercase tracking-[0.3em] mb-6"
                 style={{
-                  fontFamily: 'Creepster, cursive',
+                  ...HORROR_FONT,
                   color: '#DC2626',
                   textShadow: '0 0 16px rgba(220,38,38,0.9), 0 0 32px rgba(185,28,28,0.6)',
                 }}
@@ -172,30 +171,29 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
 
               {/* Divider */}
               <div className="flex items-center justify-center gap-4 mb-6">
-                <div className="h-px w-16 bg-gradient-to-r from-transparent to-blood-700/60" />
-                <span className="text-blood-600 text-lg">☠️</span>
-                <div className="h-px w-16 bg-gradient-to-l from-transparent to-blood-700/60" />
+                <div className="h-px w-32 bg-gradient-to-r from-transparent to-blood-700/60" />
+                <div className="h-px w-32 bg-gradient-to-l from-transparent to-blood-700/60" />
               </div>
 
               {/* Winner name block */}
               <div className="bg-black/40 rounded-xl px-8 py-8 border border-blood-900/30 mb-6">
-                <div className="text-5xl font-bold text-white mb-3 text-bordered tracking-[0.1em]" style={{ fontFamily: 'Creepster, cursive' }}>
+                <div className="text-5xl font-bold text-white mb-3 text-bordered tracking-[0.1em]" style={{ fontFamily: "'Nosifer', cursive" }}>
                   {winner.name}
                 </div>
                 <div className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-purple-500/50 to-transparent mb-3" />
-                <div className="text-lg text-purple-300 font-medium tracking-wide text-bordered">
+                <div className="text-lg text-purple-100 font-medium tracking-wide text-bordered" style={HORROR_FONT}>
                   {winner.location}
                 </div>
                 <div className="h-px w-24 mx-auto bg-gradient-to-r from-transparent via-purple-500/50 to-transparent mt-3 mb-3" />
-                <div className="text-sm text-red-400 uppercase tracking-[0.2em]">
-                  Victim No: <span className="text-red-300 font-bold">{winner.id}</span>
+                <div className="text-sm text-red-200 uppercase tracking-[0.2em]" style={HORROR_FONT}>
+                  Victim No: <span className="text-white font-bold">{winner.id}</span>
                 </div>
               </div>
 
               {/* Bottom tagline */}
               <div
-                className="text-sm text-red-300 uppercase tracking-[0.2em]"
-                style={{ textShadow: '0 0 6px rgba(239,68,68,0.5)' }}
+                className="text-sm text-red-200 uppercase tracking-[0.2em]"
+                style={{ ...HORROR_FONT, textShadow: '0 0 6px rgba(239,68,68,0.5)' }}
               >
                 Your Fate Has Been Sealed
               </div>

@@ -131,7 +131,7 @@ export default function Home() {
         <header className="text-center mb-6 relative">
           <h1
             className="text-6xl font-bold text-blood-600 mb-2 drop-shadow-lg font-horror tracking-[0.15em]"
-            style={{ fontFamily: 'Creepster, cursive' }}
+            style={{ fontFamily: "'Nosifer', cursive" }}
           >
             DMS MIDNIGHT 13<sup className="text-4xl">TH</sup>
           </h1>
@@ -139,7 +139,7 @@ export default function Home() {
             <div className="h-px w-12 bg-gradient-to-r from-transparent to-blood-700/60" />
             <p
               className="text-lg text-red-300/80 tracking-[0.2em] uppercase"
-              style={{ fontFamily: 'Creepster, cursive' }}
+              style={{ fontFamily: "'Nosifer', cursive" }}
             >
               The Chosen Ones Await Their Fate
             </p>
