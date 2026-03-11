@@ -68,8 +68,8 @@ export default function WinnerCard({ state, shufflePool, winner }: WinnerCardPro
 
   if (state === 'idle' && !winner) {
     return (
-      <div className="border border-blood-900/30 rounded-2xl p-10 mb-8 text-center bg-black/20">
-        <div className="text-red-400/80 text-lg tracking-wide" style={HORROR_FONT}>
+      <div className="border border-white rounded-2xl p-10 mb-8 text-center bg-black/20">
+        <div className="text-red-400/80 text-lg tracking-wide" style={{...HORROR_FONT, WebkitTextStroke: '1px white'}}>
           Click &quot;Begin the Ritual&quot; to choose a victim...
         </div>
       </div>
